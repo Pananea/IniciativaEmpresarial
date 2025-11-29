@@ -1,0 +1,89 @@
+
+from kivymd.uix.textfield import MDTextField
+from kivymd.uix.button import MDButton, MDButtonText
+from kivymd.uix.dialog import MDDialog
+
+
+class LoginScreen(PantallaBase):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.add_widget(Fondo(color=(0.95, 0.95, 1, 1)))
+
+        card = MDCard(
+            orientation="vertical",
+            padding=40,
+            spacing=25,
+            size_hint=(0.9, 0.7),
+            pos_hint={"center_x": 0.5, "center_y": 0.5},
+            elevation=8,
+            radius=[25]
+        )
+        card.md_bg_color = (1, 1, 1, 1)
+
+        # Título
+        card.add_widget(MDLabel(
+            text="🔐 Iniciar Sesión",
+            halign="center",
+            font_style="H5"
+        ))
+
+        # Usuario
+        self.usuario = MDTextField(
+            hint_text="Usuario o correo",
+            mode="rectangle",
+            size_hint_x=0.85,
+            pos_hint={"center_x": 0.5}
+        )
+        card.add_widget(self.usuario)
+
+        # Contraseña
+        self.contra = MDTextField(
+            hint_text="Contraseña",
+            mode="rectangle",
+            password=True,
+            size_hint_x=0.85,
+            pos_hint={"center_x": 0.5}
+        )
+        card.add_widget(self.contra)
+
+        # Botón iniciar
+        card.add_widget(MDButton(
+            MDButtonText(text="Ingresar"),
+            style="filled",
+            md_bg_color=(0.5, 0.6, 1, 1),
+            on_release=lambda x: self.iniciar()
+        ))
+
+        # Botón ir al registro
+        card.add_widget(MDButton(
+            MDButtonText(text="Registrarse"),
+            style="outlined",
+            on_release=lambda x: self.ir_registro()
+        ))
+
+        self.add_widget(card)
+
+    def iniciar(self):
+        usuario = self.usuario.text
+        contra = self.contra.text
+
+        if usuario == "" or contra == "":
+            self.mostrar_alerta("❌ Todos los campos son obligatorios.")
+        else:
+            self.mostrar_alerta("✔ Sesión iniciada correctamente.")
+
+    def ir_registro(self):
+        self.manager.transition.direction = "left"
+        self.manager.current = "registro"
+
+    def mostrar_alerta(self, mensaje):
+        dialog = MDDialog(
+            title="Mensaje",
+            text=mensaje,
+            buttons=[
+                MDButton(MDButtonText(text="OK"),
+                         on_release=lambda x: dialog.dismiss())
+            ]
+        )
+        dialog.open()

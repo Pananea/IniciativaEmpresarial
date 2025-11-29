@@ -1,5 +1,5 @@
 from kivymd.app import MDApp
-from kivymd.uix.screen import MDScreen
+froam kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.label import MDLabel
